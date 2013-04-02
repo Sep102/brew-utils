@@ -4,7 +4,7 @@ module Homebrew extend self
   def reversedeps
     ARGV.formulae.each do |f|
       puts f
-      recursive_reverse_deps(f, 1)
+      recursive_reverse_deps(Formula.factory(f), 1)
       puts
     end
   end
@@ -15,10 +15,8 @@ private
     collect { |pn| pn.basename.to_s }
 
   def recursive_reverse_deps(formula, level)
-    @installed.each do |f|
-      f = Formula.factory f rescue next
-
-      if f.deps.find { |dep| dep == formula.name } != nil
+    @installed.collect { |f| Formula.factory f }.each do |f|
+      if Dependency.expand(f).include?(formula) then
         puts "> "*level+f.name
         recursive_reverse_deps(f, level+1)
       end
