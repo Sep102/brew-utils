@@ -1,7 +1,7 @@
 require 'formula'
 
 module Homebrew extend self
-  def reversedeps
+  def sped
     ARGV.formulae.each do |f|
       puts f
       recursive_reverse_deps(Formula.factory(f), 1)
@@ -24,4 +24,4 @@ private
   end
 end
 
-Homebrew.reversedeps
+Homebrew.sped
