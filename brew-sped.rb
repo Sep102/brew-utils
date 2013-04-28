@@ -20,7 +20,7 @@ private
         puts "> "*level+f.name
         recursive_reverse_deps(f, level+1)
       end
-    end
+    end rescue return
   end
 end
 
